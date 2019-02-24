@@ -36,12 +36,20 @@ class GildedRose {
             $this->processSell($type, $item);
             $this->processQuality($type, $item);
         }
-
-
-
     }
 
-    
+    private function processSell($type, $item){
+        $less_sell = 1;
+        if($type == "conjured"){
+            $less_sell = 2;
+        }
+        $item->sell_in -=  $less_sell;
+        if($item->sell_in < self::AFTER_CONCERT){
+            $item->quality = self::MIN_QUALITY;
+        }
+    }
+
+
 }
 
 class Item {

@@ -63,10 +63,10 @@ class GildedRose {
             case 'backstage':
                 if($item->quality < self::MAX_QUALITY){
                     if($item->sell_in < 11 && $item->sell_in > 5 ){
-                        echo "entro 2 $item->sell_in \n";
+                        //echo "entro 2 $item->sell_in \n";
                         $valor_quality = 2;
                     }elseif ($item->sell_in < 6 && $item->sell_in > 0){
-                        echo "entro 3 $item->sell_in \n";
+                        //echo "entro 3 $item->sell_in \n";
                         $valor_quality = 3;
                     }elseif ($item->sell_in < 0){
                         $valor_quality = 0;

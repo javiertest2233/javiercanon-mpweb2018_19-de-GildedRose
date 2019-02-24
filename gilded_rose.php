@@ -9,6 +9,15 @@
 class GildedRose {
 
     private $items;
+    const MAX_QUALITY = 50;
+    const MIN_QUALITY = 0;
+    const AFTER_CONCERT = 0;
+    private $products = array(
+        'aged'=> 'Aged Brie',
+        'sulfuras' => 'Sulfuras, Hand of Ragnaros',
+        'backstage' => 'Backstage passes to a TAFKAL80ETC concert',
+        'conjured' => 'Conjured Mana Cake'
+    );
 
     function __construct($items) {
         $this->items = $items;
@@ -16,53 +25,23 @@ class GildedRose {
 
     function update_quality() {
         foreach ($this->items as $item) {
-            if ($item->name != 'Aged Brie' and $item->name != 'Backstage passes to a TAFKAL80ETC concert') {
-                if ($item->quality > 0) {
-                    if ($item->name != 'Sulfuras, Hand of Ragnaros') {
-                        $item->quality = $item->quality - 1;
-                    }
-                }
-            } else {
-                if ($item->quality < 50) {
-                    $item->quality = $item->quality + 1;
-                    if ($item->name == 'Backstage passes to a TAFKAL80ETC concert') {
-                        if ($item->sell_in < 11) {
-                            if ($item->quality < 50) {
-                                $item->quality = $item->quality + 1;
-                            }
-                        }
-                        if ($item->sell_in < 6) {
-                            if ($item->quality < 50) {
-                                $item->quality = $item->quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if ($item->name != 'Sulfuras, Hand of Ragnaros') {
-                $item->sell_in = $item->sell_in - 1;
-            }
-
-            if ($item->sell_in < 0) {
-                if ($item->name != 'Aged Brie') {
-                    if ($item->name != 'Backstage passes to a TAFKAL80ETC concert') {
-                        if ($item->quality > 0) {
-                            if ($item->name != 'Sulfuras, Hand of Ragnaros') {
-                                $item->quality = $item->quality - 1;
-                            }
-                        }
-                    } else {
-                        $item->quality = $item->quality - $item->quality;
-                    }
-                } else {
-                    if ($item->quality < 50) {
-                        $item->quality = $item->quality + 1;
-                    }
-                }
-            }
+            $type = array_search($item->name, $this->products);
+            //echo "type:" . $type . "\n";
+            $this->process_update_quality($type, $item);
         }
     }
+
+    private function process_update_quality($type, $item){
+        if($type != "sulfuras"){
+            $this->processSell($type, $item);
+            $this->processQuality($type, $item);
+        }
+
+
+
+    }
+
+    
 }
 
 class Item {

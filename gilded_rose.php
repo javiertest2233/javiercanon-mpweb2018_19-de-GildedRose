@@ -80,7 +80,6 @@ class GildedRose {
                 if($item->quality > self::MIN_QUALITY){
                     $item->quality -= $valor_quality;
                 }
-
         }
     }
 

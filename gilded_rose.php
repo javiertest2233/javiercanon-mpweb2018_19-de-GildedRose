@@ -49,6 +49,40 @@ class GildedRose {
         }
     }
 
+    private function  processQuality($type, $item){
+        $valor_quality = 1;
+        switch ($type){
+            case 'aged':
+                if($item->quality < self::MAX_QUALITY){
+                    if($item->sell_in < 0){
+                        $valor_quality = 2;
+                    }
+                    $item->quality += $valor_quality;
+                }
+                break;
+            case 'backstage':
+                if($item->quality < self::MAX_QUALITY){
+                    if($item->sell_in < 11 && $item->sell_in > 5 ){
+                        echo "entro 2 $item->sell_in \n";
+                        $valor_quality = 2;
+                    }elseif ($item->sell_in < 6 && $item->sell_in > 0){
+                        echo "entro 3 $item->sell_in \n";
+                        $valor_quality = 3;
+                    }elseif ($item->sell_in < 0){
+                        $valor_quality = 0;
+                    }
+                    $item->quality += $valor_quality;
+                    $item->quality = ($item->quality > self::MAX_QUALITY  ? self::MAX_QUALITY  : $item->quality );
+                }
+
+                break;
+            default:
+                if($item->quality > self::MIN_QUALITY){
+                    $item->quality -= $valor_quality;
+                }
+
+        }
+    }
 
 }
 
